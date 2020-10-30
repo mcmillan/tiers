@@ -1,3 +1,3 @@
-require_relative 'lib/lockdown_lookup'
+require_relative 'lib/tiers'
 
-run LockdownLookup
+run Tiers
