@@ -5,6 +5,7 @@ class Tiers::PostcodeLookupService
 
   def initialize(postcode:)
     @postcode = postcode
+    raise LookupError, 'No postcode supplied' if postcode.empty?
   end
 
   def gss_codes
@@ -14,7 +15,7 @@ class Tiers::PostcodeLookupService
   private
 
   def map_it_response
-    @map_it_response = HTTParty.get(
+    @map_it_response ||= HTTParty.get(
       map_it_url(path: "/postcode/#{URI.encode_www_form_component(postcode)}"),
       headers: {
         'User-Agent': 'Tiers (https://github.com/mcmillan/tiers)'
@@ -25,7 +26,11 @@ class Tiers::PostcodeLookupService
       message = response.parsed_response['error'] || "#{response.code} error"
 
       raise LookupError, message
-    end.parsed_response
+    end.parsed_response.tap do |response|
+       next if response['areas'].values.any? { |area| area['country_name'] == 'England' }
+
+       raise LookupError, 'Postcode is outside of England'
+    end
   end
 
   def map_it_url(path:)
@@ -33,6 +38,6 @@ class Tiers::PostcodeLookupService
   end
 
   def map_it_api_key
-    @api_key ||= ENV.fetch('MAP_IT_API_KEY')
+    @map_it_api_key ||= ENV.fetch('MAP_IT_API_KEY')
   end
 end
