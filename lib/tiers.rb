@@ -1,9 +1,8 @@
-require 'sinatra'
+Bundler.require
 
-require_relative 'map_it_client'
+module Tiers; end
 
-class Tiers < Sinatra::Base
-  get '/' do
-    MapItClient.instance.lookup_postcode(postcode: 'M4 6WX').to_json
-  end
-end
+require_relative 'tiers/models/restriction'
+require_relative 'tiers/services/postcode_lookup_service'
+require_relative 'tiers/services/restriction_lookup_service'
+require_relative 'tiers/server'
