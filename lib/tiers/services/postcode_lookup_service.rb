@@ -5,7 +5,7 @@ class Tiers::PostcodeLookupService
 
   def initialize(postcode:)
     @postcode = postcode
-    raise LookupError, 'No postcode supplied' if postcode.empty?
+    raise LookupError, 'No postcode supplied' if postcode.nil? || postcode.empty?
   end
 
   def gss_codes
