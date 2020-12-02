@@ -16,7 +16,10 @@ class Tiers::Server < Sinatra::Base
 
     {
       restrictions: restrictions,
-      disclaimer: 'This data is provided without warranty and may be inaccurate. Do not depend on it for anything important.'
+      legal: {
+        disclaimer: 'This data is provided without warranty and may be inaccurate. Do not depend on it for anything important.',
+        data_source: 'https://github.com/alphagov/collections/blob/2e410b97c64793b853d3947998a1109585f5c3a3/test/fixtures/local-restrictions.yaml'
+      }
     }.to_json
   end
 end
