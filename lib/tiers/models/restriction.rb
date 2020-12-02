@@ -16,7 +16,7 @@ class Tiers::Restriction
     nil
   end
 
-  def alert_level
+  def alert_level_name
     case alert_level_number
     when 2
       :high
@@ -28,7 +28,7 @@ class Tiers::Restriction
   end
 
   def guidance_url
-    case alert_level
+    case alert_level_name
     when :high
       'https://www.gov.uk/guidance/local-covid-alert-level-high'
     when :very_high
@@ -41,7 +41,8 @@ class Tiers::Restriction
   def to_json(*args)
     {
       area_name: area_name,
-      alert_level: alert_level,
+      alert_level: alert_level_number,
+      alert_level_name: alert_level_name,
       starts_at: starts_at,
       ends_at: ends_at,
       guidance_url: guidance_url
