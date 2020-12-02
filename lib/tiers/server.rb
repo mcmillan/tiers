@@ -15,7 +15,8 @@ class Tiers::Server < Sinatra::Base
     restrictions = Tiers::RestrictionLookupService.new(gss_codes: gss_codes).restrictions
 
     {
-      restrictions: restrictions
+      restrictions: restrictions,
+      disclaimer: 'This data is provided without warranty and may be inaccurate. Do not depend on it for anything important.'
     }.to_json
   end
 end
