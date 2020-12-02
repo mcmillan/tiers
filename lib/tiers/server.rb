@@ -5,7 +5,7 @@ class Tiers::Server < Sinatra::Base
     content_type :json
   end
 
-  get '/2020-10-31/restrictions' do
+  get '/v1/restrictions' do
     begin
       gss_codes = Tiers::PostcodeLookupService.new(postcode: params['postcode']).gss_codes
     rescue Tiers::PostcodeLookupService::LookupError => e
